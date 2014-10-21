@@ -1,0 +1,67 @@
+---
+title: "Statistical Inferential Analysis Course Work"
+output: pdf_document
+---
+
+Summary
+This a presentation of course work for Coursera Inferential Statistics online course. In this study distribution
+of 1000 mean vlues for sets containg 40 random exp onential distributions samples each. Results confirm that
+means are normally distributed with their mean aproximating the theo retical mean and variance approaching
+that of p oplation divided by the sample size. Calculation done using R 3.1.1 language on Windows 8 64bit
+platform
+
+```{r}
+sim_number <- 1000
+n <- 40
+lambda = 0.2
+set.seed(511)
+x <- replicate(sim_number, mean( rexp(40, rate=lambda)))
+```
+
+Results
+1. Show where the distribution is centered at and compare it to the theoretical center of the
+distribution. Expected sample mean
+X¯ = σ = 1
+λ
+1/0.2 = 5
+Calculated simulated sample mean
+
+```{r, echo=FALSE}
+smean <- sum(x) / sim_number
+smean
+```
+## [1] 4.967
+2. Show how variable it is and compare it to the theoretical variance of the distribution.
+Expected value for sample variance
+s 2 = σ2
+n
+=
+( λ1 )2
+n
+=
+1
+λ2n
+1/(0.22 ∗ 40) = 0.625
+Calculated sample variance: s2n −1 =
+n P i
+=1
+(x i −x¯) 2
+n −1 =
+```{r}
+sum((x - smean)^2)/(sim_number-1)
+```
+## [1] 0.621
+3. Show that the distribution is approximately normal. Distribution density function looks approximately like a ‘bell’ shape:
+```{r}
+plot( density(x), main="Distribution density for samples mean")
+abline(v=1/lambda, col="blue")
+```
+4. Evaluate the coverage of the confidence interval for λ1 :
+X¯ ± 1.96 √Sn
+To answer this question we just count number of sampled means out of 1000 simulations in CI, c.e. whose
+distansce from the population mean 5 is in boundaries of the fomula value
+```{r}
+sum( abs(x - 1/lambda ) < 1.96 * smean / sqrt(n))
+```
+## [1] 951
+which makes 95.1% of 1000 simulations.
